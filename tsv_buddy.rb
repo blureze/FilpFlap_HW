@@ -1,6 +1,4 @@
 # Module that can be included (mixin) to take and output TSV data
-require 'yaml'
-
 module TsvBuddy
   # take_tsv: converts a String with TSV data into @data
   # parameter: tsv - a String in TSV format
@@ -23,16 +21,17 @@ module TsvBuddy
   # to_tsv: converts @data into tsv string
   # returns: String in TSV format
   def to_tsv
-    @output = 'date\tstudent_id\tbest_language\tapp_experience\ttech_experience'
+    output = "date\tstudent_id\tlanguages\tbest_language\tapp_experience\ttech_experience\n"
     @data.each do |elem|
-      date = elem[0]
-      student_id = elem[1]
-      languages = elen[2]
-      best_language = elem[3]
-      app_experience = elem[4]
-      tech_experience = elem[5]
+      date = elem['date']
+      student_id = elem['student_id']
+      languages = elem['languages']
+      best_language = elem['best_language']
+      app_experience = elem['app_experience']
+      tech_experience = elem['tech_experience']
 
-      @output += date + "\t" + student_id + "\t" + languages + "\t" + best_language + "\t" + app_experience + "\t" + tech_experience + "\n"
+      output += date + "\t" + student_id + "\t" + languages + "\t" + best_language + "\t" + app_experience + "\t" + tech_experience + "\n"
     end
+    output
   end
 end
