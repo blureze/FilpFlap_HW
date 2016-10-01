@@ -4,34 +4,35 @@ module TsvBuddy
   # parameter: tsv - a String in TSV format
   def take_tsv(tsv)
     tsv_data = tsv.split("\n")
-    rows = tsv_data.map do |elem|
-      elem.split("\t")
-    end
+    rows = tsv_data.map { |elem| elem.split("\t") }
 
     headers = rows.first
     value = rows[1..-1]
 
     @data = value.map do |row|
-      row.map.with_index do |cell, i|
-        [headers[i], cell]
-      end.to_h
+      row.map.with_index { |cell, i| [headers[i], cell] }.to_h
     end
   end
 
   # to_tsv: converts @data into tsv string
   # returns: String in TSV format
   def to_tsv
-    output = "date\tstudent_id\tlanguages\tbest_language\tapp_experience\ttech_experience\n"
+    output = "date\tstudent_id\tlanguages\t\
+best_language\tapp_experience\ttech_experience\n"
     @data.each do |elem|
-      date = elem['date']
-      student_id = elem['student_id']
-      languages = elem['languages']
-      best_language = elem['best_language']
-      app_experience = elem['app_experience']
-      tech_experience = elem['tech_experience']
-
-      output += date + "\t" + student_id + "\t" + languages + "\t" + best_language + "\t" + app_experience + "\t" + tech_experience + "\n"
+      output += generate_output(elem)
     end
+    output
+  end
+
+  def generate_output(elem)
+    output_arr = []
+    elem.each do |_key, value|
+      output_arr.push(value)
+    end
+
+    output = output_arr.join("\t") + "\n"
+
     output
   end
 end
